@@ -10,7 +10,7 @@ export default function Dashboard({ user, onSelectRoadmap, onCreateNew }) {
   useEffect(() => {
     const fetchMyRoadmaps = async () => {
       try {
-        const response = await api.post('/api/auth/login', formData);
+const response = await api.get(`/api/roadmap/user/${user.id}`);
         if (response.data.success) setSavedRoadmaps(response.data.roadmaps);
       } catch (error) {
         console.error("Error:", error);
