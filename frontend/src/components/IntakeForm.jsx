@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import api from '../api';
 
 export default function IntakeForm({ setRoadmapData, userId }) {
   const [formData, setFormData] = useState({ goal: '', currentSkillLevel: 'Beginner', timeCommitment: 5 });
@@ -10,8 +11,7 @@ export default function IntakeForm({ setRoadmapData, userId }) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
+      const response = await api.post('/api/auth/login', formData);
       if (response.data.success) setRoadmapData(response.data.roadmap);
     } catch (error) {
       console.error("Error generating roadmap:", error);
