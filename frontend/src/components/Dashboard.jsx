@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ArrowRight, BookOpen, Loader2 } from 'lucide-react';
+import api from '../api';
 
 export default function Dashboard({ user, onSelectRoadmap, onCreateNew }) {
   const [savedRoadmaps, setSavedRoadmaps] = useState([]);
@@ -9,8 +10,7 @@ export default function Dashboard({ user, onSelectRoadmap, onCreateNew }) {
   useEffect(() => {
     const fetchMyRoadmaps = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
+        const response = await api.post('/api/auth/login', formData);
         if (response.data.success) setSavedRoadmaps(response.data.roadmaps);
       } catch (error) {
         console.error("Error:", error);
