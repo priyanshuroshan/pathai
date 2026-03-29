@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { AlertCircle, ArrowRight } from 'lucide-react';
+import api from '../api';
 
 export default function AuthScreen({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,8 +17,7 @@ export default function AuthScreen({ onLogin }) {
     const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
     try {
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
+const response = await api.post('/api/auth/login', formData);
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
