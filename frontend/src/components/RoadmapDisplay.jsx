@@ -9,17 +9,29 @@ export default function RoadmapDisplay({ roadmapData, setRoadmapData }) {
 
   if (!roadmapData || !roadmapData.modules) return null;
 
-  const handleStatusUpdate = async (moduleId, currentStatus) => {
-    const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
-    try {
-      const response = await axios.put('http://localhost:5000/api/roadmap/update-module', {
-        roadmapId: roadmapData._id, moduleId, newStatus
-      });
-      if (response.data.success) setRoadmapData(response.data.roadmap);
-    } catch (error) {
-      console.error("Error:", error);
+  // File: frontend/src/components/RoadmapDisplay.jsx
+
+// 1. Pehle API URL determine karo (Render ka link ya localhost)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+// 2. Phir axios call mein usko use karo
+const handleStatusUpdate = async (moduleId, currentStatus) => {
+  const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+  
+  try {
+    const response = await axios.put(`${API_BASE_URL}/api/roadmap/update-module`, {
+      roadmapId: roadmapData._id, 
+      moduleId, 
+      newStatus
+    });
+    
+    if (response.data.success) {
+      setRoadmapData(response.data.roadmap);
     }
-  };
+  } catch (error) {
+    console.error("Error updating progress:", error);
+  }
+};
 
   const handleFetchVideos = async (topic, moduleId) => {
     if (activeVideoModule === moduleId) return setActiveVideoModule(null);
