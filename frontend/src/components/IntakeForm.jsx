@@ -10,7 +10,8 @@ export default function IntakeForm({ setRoadmapData, userId }) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/roadmap/create-path', { ...formData, userId });
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
       if (response.data.success) setRoadmapData(response.data.roadmap);
     } catch (error) {
       console.error("Error generating roadmap:", error);
