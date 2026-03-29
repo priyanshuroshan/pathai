@@ -17,7 +17,9 @@ export default function AuthScreen({ onLogin }) {
     const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
     try {
-const response = await api.post('/api/auth/login', formData);
+// Purana: const response = await axios.post(`http://localhost:5000${endpoint}`, formData);
+// Naya:
+const response = await api.post(endpoint, formData);
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
