@@ -9,7 +9,8 @@ export default function Dashboard({ user, onSelectRoadmap, onCreateNew }) {
   useEffect(() => {
     const fetchMyRoadmaps = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/roadmap/user/${user.id}`);
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
         if (response.data.success) setSavedRoadmaps(response.data.roadmaps);
       } catch (error) {
         console.error("Error:", error);
