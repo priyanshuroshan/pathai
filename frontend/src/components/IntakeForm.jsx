@@ -11,7 +11,7 @@ export default function IntakeForm({ setRoadmapData, userId }) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await api.post('/api/auth/login', formData);
+const response = await api.post('/api/roadmap/create-path', { ...formData, userId });
       if (response.data.success) setRoadmapData(response.data.roadmap);
     } catch (error) {
       console.error("Error generating roadmap:", error);
