@@ -1,6 +1,7 @@
 import { Check, Circle, Clock, Code2, PlaySquare, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import axios from 'axios';
+import api from '../api';
 
 export default function RoadmapDisplay({ roadmapData, setRoadmapData }) {
   const [activeVideoModule, setActiveVideoModule] = useState(null);
@@ -9,21 +10,14 @@ export default function RoadmapDisplay({ roadmapData, setRoadmapData }) {
 
   if (!roadmapData || !roadmapData.modules) return null;
 
-  // File: frontend/src/components/RoadmapDisplay.jsx
-
-// 1. Pehle API URL determine karo (Render ka link ya localhost)
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+ 
 
 // 2. Phir axios call mein usko use karo
 const handleStatusUpdate = async (moduleId, currentStatus) => {
   const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
   
   try {
-    const response = await axios.put(`${API_BASE_URL}/api/roadmap/update-module`, {
-      roadmapId: roadmapData._id, 
-      moduleId, 
-      newStatus
-    });
+   const response = await api.put('/api/roadmap/update-module', { roadmapId: roadmapData._id, moduleId, newStatus });
     
     if (response.data.success) {
       setRoadmapData(response.data.roadmap);
@@ -38,7 +32,7 @@ const handleStatusUpdate = async (moduleId, currentStatus) => {
     setActiveVideoModule(moduleId);
     setIsVideoLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/resources/youtube', { topic });
+const response = await api.post('/api/resources/youtube', { topic });
       if (response.data.success) setVideos(response.data.videos);
     } catch (error) {
       console.error("Error:", error);
